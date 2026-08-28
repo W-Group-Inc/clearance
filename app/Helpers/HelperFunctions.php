@@ -45,6 +45,12 @@ function for_release()
 
     return $exit;
 }
+function released()
+{
+    $exit = ExitResign::where('status','Released')->count();
+
+    return $exit;
+}
 
 function get_avatar($id)
 {

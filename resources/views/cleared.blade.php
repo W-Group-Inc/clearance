@@ -22,7 +22,7 @@
                     </a>
                 </form>
             </div> --}}
-            <h4 class="page-title">Cleared </h4>
+            <h4 class="page-title">{{$pageTitle ?? 'Cleared'}} </h4>
         </div>
     </div>
 </div>
@@ -88,16 +88,27 @@
                   </p>
                   <br>
                   <span>Date Created: {{date('M d, Y',strtotime($resign->created_at))}}</span> <br>
-                  <span>Date Cleared: {{date('M d, Y',strtotime($resign->date_cleared))}}</span> <br>
+                  <span>Date Cleared: {{$resign->date_cleared ? date('M d, Y', strtotime($resign->date_cleared)) : 'N/A'}}</span> <br>
+                  <span>Status: <strong>{{$resign->status}}</strong></span><br>
+                  @if($resign->status_updates->count())
+                    <div class="mt-2">
+                      <strong>Status Documents:</strong><br>
+                      @foreach($resign->status_updates as $statusUpdate)
+                        <a href="{{url('clearance-status-document/'.$statusUpdate->id)}}" class="me-2" title="{{$statusUpdate->original_name}}">
+                          <i class="mdi mdi-file-document-outline"></i> {{$statusUpdate->status}}
+                        </a>
+                      @endforeach
+                    </div>
+                  @endif
                   @php
                     $d1 = new DateTime($resign->created_at);
-                    $d2 = new DateTime($resign->date_cleared);
                     $d3 = new DateTime();
-                    $diff = $d2->diff($d1);
-                    $diff_computation = $d2->diff($d3);
+                    $d2 = $resign->date_cleared ? new DateTime($resign->date_cleared) : null;
+                    $diff = $d2 ? $d2->diff($d1) : null;
+                    $diff_computation = $d2 ? $d2->diff($d3) : null;
                 @endphp
-                  <span>TAT Clearance Completed: {{$diff->days}} Day/s</span> <br>
-                  <span>Computation Days: {{$diff_computation->days}} Day/s</span>
+                  <span>TAT Clearance Completed: {{$diff ? $diff->days.' Day/s' : 'N/A'}}</span> <br>
+                  <span>Computation Days: {{$diff_computation ? $diff_computation->days.' Day/s' : 'N/A'}}</span>
               </div> <!-- end card-body-->
               <ul class="list-group list-group-flush">
                   <li class="list-group-item p-3">
@@ -128,6 +139,11 @@
                           </div><!-- /.progress-bar -->
                       </div><!-- /.progress -->
                   </li>
+                  @if(auth()->user()->clearance_admin)
+                    <li class="list-group-item p-3 text-end">
+                      @include('update_exit_status')
+                    </li>
+                  @endif
               </ul>
           </div> <!-- end card-->
       </div> <!-- end col -->
