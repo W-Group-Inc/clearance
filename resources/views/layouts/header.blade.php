@@ -27,6 +27,7 @@
     <link href="{{asset('inside_login/assets/css/app-dark.min.css')}}" rel="stylesheet" type="text/css" id="dark-style">
 
     <link rel="stylesheet" href="{{asset('css/component-chosen.css')}}">
+    @yield('styles')
    <style>
       .loader {
             position: fixed;
@@ -281,8 +282,7 @@
 
         $(".chosen-select").chosen({width:"100%"})
   </script>
-    <!-- demo app -->
-    <script src="{{asset('inside_login/assets/js/pages/demo.dashboard.js')}}"></script>
+    @yield('scripts')
       <script type="text/javascript">
           function show() {
               document.getElementById("loader").style.display = "block";

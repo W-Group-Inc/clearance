@@ -79,8 +79,8 @@
               </div>
             </div>
             <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
-              <div class="position-relative bg-gradient-warning h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden" style="background-image: url('https://wgroup.com.ph/wp-content/themes/yootheme/cache/e3/W-CityCenter-e37500ea.webp');
-          background-size: cover;">
+              <div class="position-relative bg-gradient-warning h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden" style="background-image: url('{{ asset('images/W-CityCenter-e37500ea.webp') }}');
+          background-size: cover; background-position: center;">
                 <span class="mask bg-gradient-info opacity-6"></span>
                 <h4 class="mt-5 text-white font-weight-bolder position-relative">"If you're <b>BRAVE</b> enough to say <b>GOODBYE</b>"</h4>
                 <p class="text-white position-relative">life will reward you with a new <b>HELLO</b></p>
