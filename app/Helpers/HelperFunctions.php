@@ -53,3 +53,27 @@ function get_avatar($id)
 
     return $image;
 }
+
+/**
+ * Resolve the company logo stored by the HRIS for use in clearance PDFs.
+ */
+function get_company_logo($company)
+{
+    if (!$company) {
+        return asset('images/m.png');
+    }
+
+    // HRIS deployments have used different column names for the uploaded image.
+    foreach (['logo', 'company_logo', 'company_image', 'image', 'image_path', 'logo_path'] as $attribute) {
+        $image = trim((string) $company->getAttribute($attribute));
+        if ($image !== '') {
+            if (filter_var($image, FILTER_VALIDATE_URL)) {
+                return $image;
+            }
+
+            return 'https://hris.agenturecorp.com/' . ltrim($image, '/');
+        }
+    }
+
+    return asset('images/m.png');
+}

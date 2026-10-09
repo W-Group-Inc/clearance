@@ -130,8 +130,8 @@
         <table style='width:100%;' border="0" cellspacing="0" cellpadding="0">
             <tr>
                 <td class='text-left"'>
-                    <p class="m-0" style="font-size:9">FR-HRD-026</p>
-                    <p class="m-0" style="font-size:9">Rev. 0 08/01/2023</p>
+                    <p class="m-0" style="font-size:9"></p>
+                    <p class="m-0" style="font-size:9"></p>
                 </td>
                 <td class='text-center'>
                     <i ></i>
@@ -146,40 +146,9 @@
         <table style='width:100%;' border="2" cellspacing="0" cellpadding="0">
             <tr>
                 <td width='100px' style='width:20; text-align:center;' rowspan="2">
-                    <img src="{{asset('images/m.png')}}" alt="" height="100" style="margin: auto;">
+                    <img src="{{get_company_logo($resign->company)}}" alt="Company logo" height="100" style="margin: auto;">
                 </td>
-                <td colspan="3">
-                    <span class='m-0 p-0' style='font-size:8;margin-top;0px;padding-top:0px;'>
-                        <p class="text-center" style="font-weight: bold;">Subsidiaries and Affiliates </p>
-                    </span>
-                    <hr class='soft'>
-
-                    <table style='font-size:9;margin-top;0px;padding-top:0px;' style='width:100%;' border="0" cellspacing="0" cellpadding="0">
-                        <tr>
-                            <td class='text-left' style='width:10%;'></td>
-                            <td class='text-left'><input type='checkbox'> WGI</td>
-                            <td class='text-left'><input type='checkbox'> WHI Carmona</td>
-                            <td class='text-left'><input type='checkbox'> FMPI/FMTCC</td>
-                        </tr>
-                        <tr>
-                            <td class='text-left' style='width:10%;'></td>
-                            <td class='text-left'> <input type='checkbox'> WHI - HO</td>
-                            <td class='text-left'><input type='checkbox'> CCC</td>
-                            <td class='text-left'><input type='checkbox'> PBI</td>
-                        </tr>
-                        <tr>
-                            <td class='text-left' style='width:10%;'></td>
-                            <td class='text-left'> <input type='checkbox'> WLI</td>
-                            <td class='text-left'><input type='checkbox'> MRDC </td>
-                            <td class='text-left'><input type='checkbox'> Others: ________</td>
-                        </tr>
-                        <tr>
-                            <td class='text-left' style='width:10%;'></td>
-                            <td class='text-left'> <input type='checkbox'> PRI</td>
-                            <td class='text-left'><input type='checkbox'> SPAI </td>
-                        </tr>
-                    </table>
-                </td>
+             
             </tr>
             <tr>
                 <td colspan="3" class='text-center' style="margin-top:0; padding:0;">
