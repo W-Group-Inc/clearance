@@ -148,9 +148,7 @@
                 <td width='100px' style='width:20; text-align:center;'>
                     <img src="{{get_company_logo($resign->company)}}" alt="Company logo" height="100" style="margin: auto;">
                 </td>
-             
-            </tr>
-            <tr>
+         
                 <td colspan="3" class='text-center' style="margin-top:0; padding:0;">
                     <p style="font-size: 9">Form Title :</p>
                     <p style="font-weight: bold; font-size:17px;" class="text-center m-0">CLEARANCE FORM</p>
