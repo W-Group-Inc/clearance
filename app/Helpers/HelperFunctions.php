@@ -45,6 +45,12 @@ function for_release()
 
     return $exit;
 }
+function released()
+{
+    $exit = ExitResign::where('status','Released')->count();
+
+    return $exit;
+}
 
 function get_avatar($id)
 {
@@ -54,9 +60,6 @@ function get_avatar($id)
     return $image;
 }
 
-/**
- * Resolve the company logo stored by the HRIS for use in clearance PDFs.
- */
 function get_company_logo($company)
 {
     if (!$company) {

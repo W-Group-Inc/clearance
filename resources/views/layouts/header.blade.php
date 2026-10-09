@@ -27,6 +27,7 @@
     <link href="{{asset('inside_login/assets/css/app-dark.min.css')}}" rel="stylesheet" type="text/css" id="dark-style">
 
     <link rel="stylesheet" href="{{asset('css/component-chosen.css')}}">
+    @yield('styles')
    <style>
       .loader {
             position: fixed;
@@ -104,6 +105,13 @@
                     </a>
                   </li>
                   <li class="side-nav-item">
+                    <a  href="{{url('/for-computation')}}" class="side-nav-link">
+                        <i class="uil-calculator-alt"></i>
+                        <span class="badge bg-success float-end">{{ongoing_computation()}}</span>
+                        <span> For Computation </span>
+                    </a>
+                  </li>
+                  <li class="side-nav-item">
                     <a  href="{{url('/for-release')}}" class="side-nav-link">
                         <i class="uil-envelope-send"></i>
                         <span class="badge bg-success float-end">{{for_release()}}</span>
@@ -113,6 +121,7 @@
                   <li class="side-nav-item">
                     <a  href="{{url('/released')}}" class="side-nav-link">
                         <i class="uil-user-check"></i>
+                        <span class="badge bg-success float-end">{{released()}}</span>
                         <span> Released </span>
                     </a>
                   </li>
@@ -273,8 +282,7 @@
 
         $(".chosen-select").chosen({width:"100%"})
   </script>
-    <!-- demo app -->
-    <script src="{{asset('inside_login/assets/js/pages/demo.dashboard.js')}}"></script>
+    @yield('scripts')
       <script type="text/javascript">
           function show() {
               document.getElementById("loader").style.display = "block";

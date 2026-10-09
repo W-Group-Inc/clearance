@@ -8,8 +8,13 @@ use App\ExitClearance;
 use App\ExitClearanceComment;
 use App\ExitClearanceChecklist;
 use App\ExitClearanceSignatory;
+use App\ExitResignStatusUpdate;
+use App\Mail\ClearanceStatusUpdated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use RealRashid\SweetAlert\Facades\Alert;
 class ExitClearanceController extends Controller
 {
@@ -176,12 +181,15 @@ class ExitClearanceController extends Controller
             }
         }
         $resign_employee = ExitClearance::where('resign_id',$exit_signatory->clearance->resign_id)->pluck('id')->toArray();
-        $all_signatories = ExitClearanceSignatory::whereIn('exit_clearance_id',$resign_employee)->where('status',"Pending")->count();
+        $all_signatories = ExitClearanceSignatory::whereIn('exit_clearance_id',$resign_employee)
+            ->where('id', '!=', $id)
+            ->where('status', "Pending")
+            ->count();
         if($all_signatories == 0)
         {
             $update = ExitResign::where('id',$exit_signatory->clearance->resign_id)->first();
             $update->status = 'Cleared';
-            $update->date_cleared = date('Y-m0d');
+            $update->date_cleared = date('Y-m-d');
             $update->save();
 
         }
@@ -205,11 +213,135 @@ class ExitClearanceController extends Controller
 
     public function clear_index(Request $request)
     {
-        $resigns = ExitResign::with('exit_clearance.signatories')->where('status','Cleared')->get();
+        $resigns = ExitResign::with('exit_clearance.signatories', 'status_updates')->where('status','Cleared')->get();
         // dd($resigns);
         return view('cleared',array(
-            'resigns'=>$resigns
+            'resigns'=>$resigns,
+            'pageTitle'=>'Cleared'
         ));
+    }
+
+    public function forRelease(Request $request)
+    {
+        $resigns = ExitResign::with('exit_clearance.signatories', 'status_updates')->where('status','For Release')->get();
+
+        return view('cleared',array(
+            'resigns'=>$resigns,
+            'pageTitle'=>'For Release'
+        ));
+    }
+
+    public function released(Request $request)
+    {
+        $resigns = ExitResign::with('exit_clearance.signatories', 'status_updates')->where('status','Released')->get();
+
+        return view('cleared',array(
+            'resigns'=>$resigns,
+            'pageTitle'=>'Released'
+        ));
+    }
+
+    public function forComputation(Request $request)
+    {
+        $resigns = ExitResign::with('exit_clearance.signatories', 'status_updates')
+            ->where('status', 'Ongoing Computation')
+            ->get();
+
+        return view('cleared', array(
+            'resigns' => $resigns,
+            'pageTitle' => 'For Computation'
+        ));
+    }
+
+    public function updateExitStatus(Request $request, $id)
+    {
+        abort_unless(auth()->user()->clearance_admin, 403);
+
+        $resign = ExitResign::with('employee.user_info')->findOrFail($id);
+        $allowedStatuses = $resign->allowedNextStatuses();
+
+        $request->validate(array(
+            'status' => 'required|string',
+            'document' => 'required|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png|max:10240',
+            'remarks' => 'nullable|string|max:2000',
+        ));
+
+        if (!in_array($request->status, $allowedStatuses, true)) {
+            return back()->withErrors(array(
+                'status' => 'That status change is not allowed from '.$resign->status.'.'
+            ));
+        }
+
+        $document = $request->file('document');
+        $directory = storage_path('app/clearance_status_documents');
+        if (!is_dir($directory)) {
+            mkdir($directory, 0755, true);
+        }
+
+        $fileName = time().'_'.$resign->id.'_'.Str::random(8).'.'.$document->getClientOriginalExtension();
+        $document->move($directory, $fileName);
+
+        $statusUpdate = new ExitResignStatusUpdate;
+        $statusUpdate->exit_resign_id = $resign->id;
+        $statusUpdate->status = $request->status;
+        $statusUpdate->document = 'clearance_status_documents/'.$fileName;
+        $statusUpdate->original_name = substr($document->getClientOriginalName(), 0, 255);
+        $statusUpdate->remarks = $request->remarks;
+        $statusUpdate->updated_by = auth()->user()->id;
+        $statusUpdate->save();
+
+        $resign->status = $request->status;
+        if ($request->status === 'For Release') {
+            $resign->compute_done = date('Y-m-d');
+        }
+        $resign->save();
+
+        $statusUpdate->load('resign.employee');
+        $recipients = array_values(array_unique(array_filter(array(
+            $resign->personal_email,
+            $resign->employee && $resign->employee->user_info ? $resign->employee->user_info->email : null,
+        ))));
+
+        if (count($recipients)) {
+            try {
+                Mail::to($recipients)->send(new ClearanceStatusUpdated($statusUpdate));
+            } catch (\Exception $exception) {
+                Log::error('Unable to send clearance status notification.', array(
+                    'exit_resign_id' => $resign->id,
+                    'status_update_id' => $statusUpdate->id,
+                    'exception' => $exception,
+                ));
+                Alert::warning('Status updated, but the employee email could not be sent.')->persistent('Dismiss');
+                return back();
+            }
+        } else {
+            Alert::warning('Status updated, but the employee has no email address.')->persistent('Dismiss');
+            return back();
+        }
+
+        Alert::success('Status updated and the employee was notified.')->persistent('Dismiss');
+
+        $redirects = array(
+            'Ongoing Computation' => 'for-computation',
+            'For Release' => 'for-release',
+            'Released' => 'released',
+        );
+
+        return redirect($redirects[$request->status]);
+    }
+
+    public function downloadStatusDocument($id)
+    {
+        $statusUpdate = ExitResignStatusUpdate::with('resign.employee')->findOrFail($id);
+        $user = auth()->user();
+        $isEmployee = $user->employee && $statusUpdate->resign->employee_id == $user->employee->id;
+
+        abort_unless($user->clearance_admin || $isEmployee, 403);
+
+        $path = storage_path('app/'.ltrim($statusUpdate->document, '/'));
+        abort_unless(is_file($path), 404);
+
+        return response()->download($path, $statusUpdate->original_name);
     }
 
     public function generateClearanceForm($id)

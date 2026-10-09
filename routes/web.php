@@ -53,6 +53,11 @@ Route::group(['middleware' => 'auth'], function () {
 
 
     Route::get('cleared','ExitClearanceController@clear_index')->name('Cleared');
+    Route::get('for-computation','ExitClearanceController@forComputation')->name('For Computation');
+    Route::get('for-release','ExitClearanceController@forRelease')->name('For Release');
+    Route::get('released','ExitClearanceController@released')->name('Released');
+    Route::post('update-exit-status/{id}','ExitClearanceController@updateExitStatus')->name('Update Exit Status');
+    Route::get('clearance-status-document/{id}','ExitClearanceController@downloadStatusDocument')->name('Clearance Status Document');
 
     Route::post('update-signatories/{id}', 'SignatoryController@update');
 
