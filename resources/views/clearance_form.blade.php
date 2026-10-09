@@ -31,7 +31,7 @@
         body {
             /* font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif; */
             font-size: 9px;
-            margin-top: 120px;
+            margin-top: 50px;
         }
 
         @page {
@@ -145,13 +145,13 @@
     <header>
         <table style='width:100%;' border="2" cellspacing="0" cellpadding="0">
             <tr>
-                <td width='100px' style='width:20; text-align:center;'>
-                    <img src="{{get_company_logo($resign->company)}}" alt="Company logo" height="100" style="margin: auto;">
+                <td width='100px' style='width:100px; text-align:center; vertical-align:middle;'>
+                    <img src="{{get_company_logo($resign->company)}}" alt="Company logo" height="100" style="display:block; margin: auto;">
                 </td>
-         
-                <td colspan="3" class='text-center' style="margin-top:0; padding:0;">
-                    <p style="font-size: 9">Form Title :</p>
-                    <p style="font-weight: bold; font-size:17px;" class="text-center m-0">CLEARANCE FORM</p>
+
+                <td colspan="3" style="text-align:center; vertical-align:middle; margin-top:0; padding:0;">
+                    <p style="font-size: 9px; text-align:center;">Form Title :</p>
+                    <p style="font-weight: bold; font-size:17px; text-align:center;" class="m-0">CLEARANCE FORM</p>
                 </td>
             </tr>
         </table>

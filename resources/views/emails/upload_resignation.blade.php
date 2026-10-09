@@ -319,7 +319,7 @@
                           <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                             <tbody>
                               <tr>
-                                <td> <a href="https://hris.wsystem.online/" target="_blank">W Exit Management</a> </td>
+                                <td> <a href="https://hris.agenturecorp.com/" target="_blank">Exit Management</a> </td>
                               </tr>
                             </tbody>
                           </table>
@@ -327,7 +327,7 @@
                       </tr>
                     </tbody>
                   </table>
-                  <p>Please visit our W Exit Management Portal <a href="https://hris.wsystem.online/" target="_blank">W-Exit Portal</a> to complete your clearance. If you have any concerns or questions, kindly email hrd@wgroup.com.ph or hrd@rico.com.ph </p>
+                  <p>Please visit our Exit Management Portal <a href="https://hris.wsystem.online/" target="_blank">W-Exit Portal</a> to complete your clearance. If you have any concerns or questions, kindly email hrd@wgroup.com.ph or hrd@rico.com.ph </p>
                   <p>Regards, <br>
                      W Exit
                 </p>
