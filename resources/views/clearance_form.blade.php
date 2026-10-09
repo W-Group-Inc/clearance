@@ -145,7 +145,7 @@
     <header>
         <table style='width:100%;' border="2" cellspacing="0" cellpadding="0">
             <tr>
-                <td width='100px' style='width:20; text-align:center;' rowspan="2">
+                <td width='100px' style='width:20; text-align:center;'>
                     <img src="{{get_company_logo($resign->company)}}" alt="Company logo" height="100" style="margin: auto;">
                 </td>
              
