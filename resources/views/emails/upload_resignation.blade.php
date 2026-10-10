@@ -327,7 +327,7 @@
                       </tr>
                     </tbody>
                   </table>
-                  <p>Please visit our Exit Management Portal <a href="https://hris.wsystem.online/" target="_blank">W-Exit Portal</a> to complete your clearance. If you have any concerns or questions, kindly email hrd@wgroup.com.ph or hrd@rico.com.ph </p>
+                  <p>Please visit our Exit Management Portal <a href="https://hris.agenturecorp.com/" target="_blank">W-Exit Portal</a> to complete your clearance. If you have any concerns or questions, kindly email hrdepartment@agenturecorp.com </p>
                   <p>Regards, <br>
                      W Exit
                 </p>

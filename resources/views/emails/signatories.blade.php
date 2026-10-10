@@ -313,8 +313,8 @@
                   <p>Dear @if($data['employee_info']->gender == "MALE") Mr @else Ms. @endif{{$data['employee_info']->last_name}},</p>
                   <p>As part of {{$data['resignee_info']->first_name}}' clearance process, we have granted them access to the Exit Management Portal to facilitate a smooth transition. </p>
                   <p>We also need your support to ensure all departmental requirements are addressed before their last working day.</p>
-                  <p>You can access it anytime through the following <a class='btn btn-sm btn-info' href="https://hris.wsystem.online/for-clearance">link</a>.</p>
-                  <p>If you have any questions or concerns, please feel free to email: hrd@wgroup.com.ph or hrd@rico.com.ph </p>
+                  <p>You can access it anytime through the following <a class='btn btn-sm btn-info' href="https://hris.agenturecorp.com/for-clearance">link</a>.</p>
+                  <p>If you have any questions or concerns, please feel free to email: hrdepartment@agenturecorp.com </p>
                   <p>Thank you, <br>
                      W Exit
                 </p>

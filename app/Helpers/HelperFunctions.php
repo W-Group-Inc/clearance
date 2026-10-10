@@ -55,7 +55,7 @@ function released()
 function get_avatar($id)
 {
     $avatar = Employee::findOrfail($id);
-    $image = "https://hris.wsystem.online/".$avatar->avatar;
+    $image = "https://hris.agenturecorp.com/".$avatar->avatar;
 
     return $image;
 }
